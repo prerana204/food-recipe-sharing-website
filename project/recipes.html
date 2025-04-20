@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recipe Dashboard</title>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      z-index: 0;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('images/background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      filter: blur(4px) brightness(0.7);
+      z-index: -1;
+    }
+
+    header {
+      background-color: #ff7043;
+      color: white;
+      padding: 20px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .logo {
+      font-size: 24px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 16px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    .nav-links a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      position: relative;
+      color: white;
+      height: 350px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .card-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .overlay {
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+      padding: 20px;
+    }
+
+    .card h3 {
+      margin: 0 0 8px 0;
+      font-size: 22px;
+    }
+
+    .view-btn {
+      background: #ff7043;
+      border: none;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .details {
+      background: white;
+      color: #333;
+      padding: 16px;
+      display: none;
+      border-top: 1px solid #ccc;
+      z-index: 2;
+      position: relative;
+    }
+
+    .details ul {
+      padding-left: 20px;
+    }
+
+    .details li {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <div class="logo">🍽️ RecipeShare</div>
+      <div class="nav-links">
+      
+        <a href="postideas.html">Post Ideas</a>
+        <a href="home.html">Home</a>
+        <a href="subscription.html">Subscription Recipes</a>
+        <a href="receipecard.html">Recipe Card</a>
+        <a href="#" id="logoutBtn">Logout</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+
+    <!-- Recipe 1 -->
+    <div class="card">
+      <img src="images/pizza.jpg" alt="Classic Margherita Pizza" class="card-img" />
+      <div class="overlay">
+        <h3>Classic Margherita Pizza</h3>
+        <button class="view-btn" onclick="toggleDetails(this)">View Recipe</button>
+      </div>
+      <div class="details">
+        <strong>Steps:</strong>
+        <ul>
+          <li>Preheat oven to 475°F (245°C).</li>
+          <li>Roll out pizza dough and place on a baking tray.</li>
+          <li>Spread tomato sauce evenly.</li>
+          <li>Add mozzarella slices and fresh basil.</li>
+          <li>Bake for 12–15 mins until crust is golden.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Recipe 2 -->
+    <div class="card">
+      <img src="images/pasta.jpg" alt="Creamy Alfredo Pasta" class="card-img" />
+      <div class="overlay">
+        <h3>Creamy Alfredo Pasta</h3>
+        <button class="view-btn" onclick="toggleDetails(this)">View Recipe</button>
+      </div>
+      <div class="details">
+        <strong>Steps:</strong>
+        <ul>
+          <li>Boil fettuccine pasta until al dente.</li>
+          <li>In a pan, melt butter and add garlic.</li>
+          <li>Add heavy cream and grated Parmesan.</li>
+          <li>Simmer until thick and creamy.</li>
+          <li>Mix in pasta and serve with parsley.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Recipe 3 -->
+    <div class="card">
+      <img src="images/salad.jpg" alt="Fresh Garden Salad" class="card-img" />
+      <div class="overlay">
+        <h3>Fresh Garden Salad</h3>
+        <button class="view-btn" onclick="toggleDetails(this)">View Recipe</button>
+      </div>
+      <div class="details">
+        <strong>Steps:</strong>
+        <ul>
+          <li>Chop lettuce, tomatoes, cucumber, and red onions.</li>
+          <li>Toss with olive oil, lemon juice, and salt.</li>
+          <li>Add feta cheese and olives if desired.</li>
+          <li>Mix well and serve chilled.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function toggleDetails(button) {
+      const details = button.parentElement.nextElementSibling;
+      if (details.style.display === "none" || details.style.display === "") {
+        details.style.display = "block";
+        button.textContent = "Hide Recipe";
+      } else {
+        details.style.display = "none";
+        button.textContent = "View Recipe";
+      }
+    }
+
+    // Logout functionality with event listener
+    document.addEventListener("DOMContentLoaded", () => {
+      const logoutBtn = document.getElementById("logoutBtn");
+      logoutBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        localStorage.removeItem("authenticated");
+        alert("Logged out successfully!");
+        window.location.href = "index.html";
+      });
+    });
+  </script>
+
+</body>
+</html>

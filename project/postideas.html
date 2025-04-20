@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Submit Recipe Idea</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 40px;
+      background-color: #f7f7f7;
+      margin: 0;
+    }
+
+    nav {
+      background-color: #333;
+      padding: 15px 20px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    
+    <a href="about.html">About Us</a>
+    <a href="contactus.html">Contact Us</a>
+    <a href="recipes.html">Recipes</a>
+    <a href="subscription.html">Subscription </a>
+    <a href="displayidea.html">displayidea</a>
+    <a href="login.html">Login</a>
+    <a href="signup.html">Sign Up</a>
+  </nav>
+
+  <h2>Submit Your Recipe Idea</h2>
+
+  <form id="ideaForm">
+    <input type="text" name="title" placeholder="Recipe Title" required />
+    <textarea name="ingredients" placeholder="Main Ingredients" rows="3" required></textarea>
+    <textarea name="description" placeholder="Short Description" rows="4" required></textarea>
+    <button type="submit">Submit Idea</button>
+  </form>
+
+  
+
+
+  <script>
+    document.getElementById("ideaForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+  
+      const data = {
+        title: this.title.value.trim(),
+        ingredients: this.ingredients.value.trim(),
+        description: this.description.value.trim()
+      };
+  
+      // Save the idea to localStorage
+      localStorage.setItem("submittedIdea", JSON.stringify(data));
+  
+      // Optional: Also send to backend
+      await fetch('/api/post-idea', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      });
+  
+      alert("Idea submitted!");
+      this.reset();
+  
+      // Redirect to display page
+      window.location.href = "displayidea.html";
+    });
+  </script>
+  
+
+</body>
+</html>

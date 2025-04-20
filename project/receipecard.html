@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Printable Recipe Card Generator</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .recipe-card {
+      display: none;
+      background: #fff;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .recipe-card h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .recipe-card img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 10px auto;
+    }
+
+    .recipe-card h3 {
+      color: #555;
+      margin-top: 15px;
+    }
+
+    .recipe-card p {
+      color: #333;
+    }
+
+    /* Print Styles */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .recipe-card, .recipe-card * {
+        visibility: visible;
+      }
+      .recipe-card {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        box-shadow: none;
+        page-break-before: always; /* Ensures the card starts on a new page */
+      }
+      .recipe-card button {
+        display: none; /* Hide the print button in the print view */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Recipe Card Generator</h1>
+    <form id="recipeForm">
+      <label for="title">Recipe Title:</label>
+      <input type="text" id="title" required>
+
+      <label for="ingredients">Ingredients:</label>
+      <textarea id="ingredients" rows="4" required></textarea>
+
+      <label for="instructions">Instructions:</label>
+      <textarea id="instructions" rows="6" required></textarea>
+
+      <label for="cookingTime">Cooking Time (minutes):</label>
+      <input type="number" id="cookingTime" required>
+
+      <label for="difficulty">Difficulty Level:</label>
+      <select id="difficulty" required>
+        <option value="Easy">Easy</option>
+        <option value="Medium">Medium</option>
+        <option value="Hard">Hard</option>
+      </select>
+
+      <label for="image">Upload Image (optional):</label>
+      <input type="file" id="image" accept="image/*">
+
+      <label for="theme">Select Theme:</label>
+      <select id="theme">
+        <option value="minimalist">Minimalist</option>
+        <option value="vintage">Vintage</option>
+        <option value="modern">Modern</option>
+      </select>
+
+      <label for="notes">Personal Notes:</label>
+      <textarea id="notes" rows="3"></textarea>
+
+      <button type="button" onclick="generateCard()">Generate Recipe Card</button>
+    </form>
+
+    <div id="preview" class="recipe-card">
+      <h2 id="previewTitle">Recipe Title</h2>
+      <img id="previewImage" src="" alt="" style="display:none;">
+      <h3>Ingredients</h3>
+      <p id="previewIngredients"></p>
+      <h3>Instructions</h3>
+      <p id="previewInstructions"></p>
+      <p><strong>Cooking Time:</strong> <span id="previewTime"></span> minutes</p>
+      <p><strong>Difficulty:</strong> <span id="previewDifficulty"></span></p>
+      <p id="previewNotes"></p>
+      <button onclick="printCard()">Print Recipe Card</button>
+    </div>
+  </div>
+  <script>
+    // script.js
+    function generateCard() {
+      const title = document.getElementById('title').value;
+      const ingredients = document.getElementById('ingredients').value;
+      const instructions = document.getElementById('instructions').value;
+      const cookingTime = document.getElementById('cookingTime').value;
+      const difficulty = document.getElementById('difficulty').value;
+      const image = document.getElementById('image').files[0];
+      const notes = document.getElementById('notes').value;
+
+      document.getElementById('previewTitle').innerText = title;
+      document.getElementById('previewIngredients').innerText = ingredients;
+      document.getElementById('previewInstructions').innerText = instructions;
+      document.getElementById('previewTime').innerText = cookingTime;
+      document.getElementById('previewDifficulty').innerText = difficulty;
+      document.getElementById('previewNotes').innerText = notes;
+
+      if (image) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          document.getElementById('previewImage').src = e.target.result;
+          document.getElementById('previewImage').style.display = 'block';
+        };
+        reader.readAsDataURL(image);
+      } else {
+        document.getElementById('previewImage').style.display = 'none';
+      }
+
+      document.getElementById('preview').style.display = 'block';
+    }
+
+    function printCard() {
+      window.print();
+    }
+  </script>
+</body>
+</html>
